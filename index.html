@@ -233,7 +233,7 @@ footer{font-size:12px;padding:28px 0 36px}
 <h1>A forest that grows<br>up <em class="grad">alive</em>, in 3D,<br>on-chain.</h1>
 <p class="lede">10,000 cute forest pals, born in the deep green forest and minted on BNB Chain. Your first pal is free — while 500 free mints last. After that, just 0.0002 BNB. No grind. Just pals.</p>
 <div class="tierpills"><button class="pill on" style="--tc:#2DD4BF" onclick="selectTier(0)">Moss Sprout</button><button class="pill" style="--tc:#FFCD51" onclick="selectTier(1)">Mushroom Pal</button><button class="pill" style="--tc:#22D3EE" onclick="selectTier(2)">Firefly Friend</button><button class="pill" style="--tc:#3B82F6" onclick="selectTier(3)">Forest Guardian</button><button class="pill" style="--tc:#EC4899" onclick="selectTier(4)">Ancient Treant</button><button class="pill" style="--tc:#8B5CF6" onclick="selectTier(5)">Mori Spirit</button></div>
-<div class="hero-cta"><button class="btn-gold" id="mintBtnHero" disabled title="Mint opens soon — contract not deployed yet">MINT — COMING SOON</button><button class="btn-ghost" onclick="goAgent()">VIA AGENT</button></div>
+<div class="hero-cta"><button class="btn-gold" onclick="mintNow()" id="mintBtnHero">MINT NOW</button><button class="btn-ghost" onclick="goAgent()">VIA AGENT</button></div>
 </div>
 <div class="hero-right">
 <div class="stat-row"><b id="mintedHero">0</b><span>Minted</span></div>
@@ -280,7 +280,7 @@ footer{font-size:12px;padding:28px 0 36px}
 <div id="paneWallet">
 <div id="totalCost">Total: connect your wallet to see your price</div>
 <button class="btn-ghost" onclick="connectWallet()" id="connectBtn" style="margin-top:16px">CONNECT WALLET</button><br>
-<button class="btn-gold" id="mintBtn" disabled title="Mint opens soon — contract not deployed yet">MINT — COMING SOON</button>
+<button class="btn-gold" onclick="mintNow()" id="mintBtn">MINT NOW</button>
 <div id="walletNote">No browser wallet? Open this site inside your wallet app browser (MetaMask / Trust Wallet / Binance Wallet). Minting needs BNB for gas. Your first mint per wallet is FREE while free supply lasts — you only pay gas.</div>
 </div>
 <div id="paneAgent" style="display:none">
@@ -290,7 +290,7 @@ footer{font-size:12px;padding:28px 0 36px}
 <li>Paste the prompt to your agent.</li>
 <li>Review the preview (your first mint is <b>FREE</b> while 500 free mints last, then 0.0002 BNB each) and confirm.</li>
 </ol>
-<div style="font-size:13px;color:#8A8FA8;line-height:1.7">Contract: <span id="contractAddr2">coming soon</span> · chain: BNB Smart Chain (56)</div>
+<div style="font-size:13px;color:#8A8FA8;line-height:1.7">Contract: <span id="contractAddr2">0x39D111E0aa668496B7796B1ca7b8EA61eD9c2150</span> · chain: BNB Smart Chain (56)</div>
 </div>
 <div id="mintMsg"></div>
 </div>
@@ -322,7 +322,7 @@ footer{font-size:12px;padding:28px 0 36px}
 </div>
 <div id="marketEmpty" class="mkt-empty reveal">🌱 <b>No pals on the market yet</b> — mint hasn't opened. Be the first to mint, be the first to list.</div>
 <div id="marketBoard" class="mkt-board" style="display:none"></div>
-<div class="mkt-btns reveal"><button class="btn-ghost" disabled title="Marketplace links activate after deploy">View on OpenSea<span class="mk-sub">· after deploy</span></button><button class="btn-ghost" disabled title="Marketplace links activate after deploy">View on Element<span class="mk-sub">· after deploy</span></button></div>
+<div class="mkt-btns reveal"><a class="btn-ghost" href="https://opensea.io/assets/bsc/0x39D111E0aa668496B7796B1ca7b8EA61eD9c2150" target="_blank" rel="noopener">View on OpenSea</a><a class="btn-ghost" href="https://element.market/assets/bsc/0x39D111E0aa668496B7796B1ca7b8EA61eD9c2150" target="_blank" rel="noopener">View on Element</a></div>
 <p class="mkt-note">On-chain listing (list / buy on this site) is a separate step if the owner wants it later — this site does not run a marketplace contract. Marketplace links activate once the contract is deployed.</p>
 </section>
 
@@ -338,7 +338,7 @@ footer{font-size:12px;padding:28px 0 36px}
 </ol>
 <div class="selbox">
 Ask your Binance Agentic Wallet agent: <b>"mint &lt;qty&gt; Moripals"</b><br>
-Contract: <code class="hex" id="contractAddr">0xKONTRAK (coming soon)</code>
+Contract: <code class="hex" id="contractAddr">0x39D111E0aa668496B7796B1ca7b8EA61eD9c2150</code>
 mint(uint256): <code class="hex">0xa0712d68</code>
 priceFor(address,uint256): <code class="hex">0xd527979a</code>
 freeRemaining(): <code class="hex">0x5a781a6b</code>
@@ -382,13 +382,13 @@ Chain: BNB Smart Chain (56)<br>
 </div>
 <footer><b>MORIPALS</b> · moripals.fun · <a href="https://x.com/moripals" target="_blank" rel="noopener">𝕏 @moripals</a><br>
 Mint runs through your own wallet or agent. Pals live on BNB Smart Chain.<br>
-<span id="contractFoot"></span><br>
-Mint status: COMING SOON · forest pals edition</footer>
+<span id="contractFoot">0x39D111E0aa668496B7796B1ca7b8EA61eD9c2150</span><br>
+<span id="mintStatus">Mint status: LIVE</span> · forest pals edition</footer>
 </div>
 <script>
-const CONTRACT = "";
+const CONTRACT = "0x39D111E0aa668496B7796B1ca7b8EA61eD9c2150";
 const RPCS = ["https://bsc-dataseed.bnbchain.org","https://bsc-dataseed1.binance.org","https://rpc-bsc.48.club"];
-const SEL_TOTAL = "0xa2309ff8", SEL_PRICEFOR = "0xd527979a", SEL_FREE = "0x5a781a6b", SEL_TOKENURI = "0xc87b56dd";
+const SEL_TOTAL = "0xa2309ff8", SEL_PRICEFOR = "0xd527979a", SEL_FREE = "0x5a781a6b", SEL_TOKENURI = "0xc87b56dd", SEL_PAUSED = "0x7e4831d3";
 const TIERS_JS = [
   {char:"Moss Sprout", color:"#2DD4BF"},
   {char:"Mushroom Pal", color:"#FFCD51"},
@@ -468,13 +468,20 @@ async function loadMarket(){
     }
   }
 }
+function setPausedUI(paused){
+  ["mintBtn","mintBtnHero"].forEach(id=>{ const b=document.getElementById(id); if(b){ b.disabled=paused; b.textContent=paused?"MINT — COMING SOON":"MINT NOW"; }});
+  const ms=document.getElementById("mintStatus"); if(ms) ms.textContent=paused?"Mint status: COMING SOON":"Mint status: LIVE";
+}
 async function refresh(){
   if(!CONTRACT){ setMinted(0); setFree(500); const lbl=document.getElementById("barLabel"); if(lbl) lbl.textContent="Contract coming soon — mint not open yet."; return; }
   const res=await rpcCall(CONTRACT,SEL_TOTAL);
-  if(!res){ const lbl=document.getElementById("barLabel"); if(lbl) lbl.textContent="Could not load live count — check your connection and refresh."; return; }
+  if(!res){ const lbl=document.getElementById("barLabel"); if(lbl) lbl.textContent="Could not load live count — check your connection and refresh."; setPausedUI(true); return; }
   setMinted(parseInt(res,16));
   const fres=await rpcCall(CONTRACT,SEL_FREE);
   if(fres) setFree(parseInt(fres,16));
+  const pres=await rpcCall(CONTRACT,SEL_PAUSED);
+  const paused=!pres || BigInt(pres)===1n;
+  setPausedUI(paused);
   loadMarket();
 }
 function setQty(v){ document.getElementById("qty").value=v; updateCost(); syncPrompt(); }
@@ -509,6 +516,8 @@ async function mintNow(){
   if(!signer){ await connectWallet(); if(!signer) return; }
   const q=parseInt(document.getElementById("qty").value)||1;
   if(q<1||q>10){ document.getElementById("mintMsg").textContent="Quantity must be 1–10."; return; }
+  const pres=await rpcCall(CONTRACT,SEL_PAUSED);
+  if(!pres || BigInt(pres)===1n){ document.getElementById("mintMsg").textContent="Mint hasn't opened yet — check back soon."; return; }
   try{
     const data=SEL_PRICEFOR+userAddr.slice(2).padStart(64,"0")+q.toString(16).padStart(64,"0");
     const res=await rpcCall(CONTRACT,data);
