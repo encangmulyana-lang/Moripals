@@ -1,0 +1,15 @@
+{
+  "name": "MORIPALS #8628",
+  "description": "MORIPALS are cute forest creature pals living in the deep green woods of the Mori. Each pal is a clay friend \u2014 a moss sprout, a mushroom, a firefly, a guardian, an ancient treant, or the legendary Mori Spirit. 10,000 pals on BNB Chain. Your first pal is FREE (while 500 free mints last).",
+  "image": "https://moripals.fun/images/common.svg",
+  "attributes": [
+    {
+      "trait_type": "Rarity",
+      "value": "Common"
+    },
+    {
+      "trait_type": "Character",
+      "value": "Moss Sprout"
+    }
+  ]
+}
