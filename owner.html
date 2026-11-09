@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Moripals — Buka Mint (Owner Only)</title>
+<style>
+body{font-family:system-ui,sans-serif;max-width:640px;margin:32px auto;padding:0 16px;background:#05060F;color:#C7C9D9}
+h1{color:#FFC53D}.card{background:#0E1030;border:1px solid #2A2E4A;border-radius:12px;padding:16px;margin:16px 0}
+button{padding:12px 20px;border-radius:8px;border:0;background:#FFC53D;color:#05060F;font-weight:bold;font-size:15px;cursor:pointer}
+button:disabled{opacity:.5}
+code{word-break:break-all;color:#22D3EE}
+.warn{background:#3d1a1a;border-color:#7a2a2a}
+small{color:#8A8FA8}
+</style>
+</head>
+<body>
+<h1>🌲 Moripals — Buka Mint</h1>
+<div class="card warn">
+<p><b>Halaman ini hanya untuk owner.</b> Transaksi ini membuka mint Moripals di Elysium (setMintPaused false). Hanya wallet owner yang bisa menjalankannya — wallet lain akan ditolak kontrak.</p>
+<p><b>Kontrak (Elysium):</b> <code>0x45a29053d8d67DB80EdA68eBD4e48fBF71296c1D</code><br>
+<b>Owner:</b> <code>0x214F559a3E6eca561AA7aa304FA7d2aDa98Eceab</code><br>
+<b>Jaringan:</b> Elysium (99901) · <b>Harga:</b> 0.002 HYPE setelah 500 free mint pertama</p>
+</div>
+<div class="card">
+<button id="connect">1. Hubungkan Wallet Owner</button>
+<p id="wallet">Belum terhubung.</p>
+<p id="paused"></p>
+<button id="send" disabled>2. BUKA MINT</button>
+<p id="status"></p>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/ethers@6.13.2/dist/ethers.umd.min.js"></script>
+<script>
+const CONTRACT = "0x45a29053d8d67DB80EdA68eBD4e48fBF71296c1D";
+const OWNER = "0x214F559a3E6eca561AA7aa304FA7d2aDa98Eceab";
+const ABI = ["function setMintPaused(bool paused) external","function mintPaused() public view returns (bool)","function owner() public view returns (address)"];
+let provider, signer, contract;
+const $ = id => document.getElementById(id);
+$("connect").onclick = async () => {
+  try {
+    if (!window.ethereum) { $("wallet").textContent = "Wallet tidak ditemukan. Buka halaman ini di dalam browser aplikasi wallet (Bitget Wallet)."; return; }
+    provider = new ethers.BrowserProvider(window.ethereum);
+    await provider.send("eth_requestAccounts", []);
+    let net = await provider.getNetwork();
+    if (net.chainId !== 99901n) {
+      try { await window.ethereum.request({method:"wallet_switchEthereumChain",params:[{chainId:"0x1863d"}]}); }
+      catch (e) {
+        if (e && e.code === 4902) { await window.ethereum.request({method:"wallet_addEthereumChain",params:[{chainId:"0x1863d",chainName:"Elysium",nativeCurrency:{name:"HYPE",symbol:"HYPE",decimals:18},rpcUrls:["https://rpc.elyscan.live"],blockExplorerUrls:["https://elyscan.live"]}]}); }
+        else throw e;
+      }
+      net = await provider.getNetwork();
+    }
+    if (net.chainId !== 99901n) { $("wallet").textContent = "Jaringan salah: pindah ke Elysium (99901) dulu."; return; }
+    signer = await provider.getSigner();
+    const addr = await signer.getAddress();
+    contract = new ethers.Contract(CONTRACT, ABI, signer);
+    const paused = await contract.mintPaused();
+    $("paused").textContent = "Status mint saat ini: " + (paused ? "PAUSED (belum dibuka)" : "TERBUKA");
+    $("wallet").textContent = "Terhubung: " + addr + (addr.toLowerCase() === OWNER.toLowerCase() ? " ✓ (ini wallet owner)" : " ⚠️ INI BUKAN WALLET OWNER — transaksi akan ditolak kontrak.");
+    $("send").disabled = false;
+  } catch (e) { $("wallet").textContent = "Gagal: " + (e.message || e); }
+};
+$("send").onclick = async () => {
+  try {
+    if (!contract) { $("status").textContent = "Hubungkan wallet dulu."; return; }
+    if (!confirm("Buka mint Moripals di Elysium (setMintPaused false)?")) return;
+    $("status").textContent = "Mengirim setMintPaused(false) — konfirmasi di wallet...";
+    const tx = await contract.setMintPaused(false);
+    $("status").textContent = "Transaksi terkirim: " + tx.hash + " — menunggu konfirmasi...";
+    await tx.wait();
+    $("status").textContent = "✓ Sukses! Tx: " + tx.hash + " — mint sekarang TERBUKA.";
+  } catch (e) { $("status").textContent = "Gagal: " + (e.message || e); }
+};
+</script>
+</body>
+</html>
