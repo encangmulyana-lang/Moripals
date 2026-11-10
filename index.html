@@ -132,6 +132,17 @@ section{padding:140px 0}
 .mkt-btns .btn-ghost:disabled{opacity:.55;cursor:not-allowed}
 .mk-sub{display:block;font-size:10px;letter-spacing:.14em;color:#8A8FA8;margin-top:3px}
 .mkt-note{margin-top:18px;font-size:13px;color:#8A8FA8;line-height:1.8}
+.mkt-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-top:18px}
+.mkt-price{color:#FFCD51;font-size:15px;font-weight:700;margin:8px 0 2px}
+.mkt-seller{font-size:11px;color:#8A8FA8;word-break:break-all}
+.mkt-row{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+.mkt-row .btn-ghost,.mkt-row .btn-gold{padding:10px 16px;font-size:13px}
+.mkt-form{background:linear-gradient(180deg,#0E1030,#080A1C);border:1px solid rgba(255,205,81,.5);border-radius:16px;padding:20px 22px;margin-top:22px}
+.mkt-form h3{font-size:13px;letter-spacing:.18em;text-transform:uppercase;color:#FFCD51;margin-bottom:6px}
+.mkt-form input{width:150px;padding:11px 12px;font-family:'JetBrains Mono',monospace;font-size:14px;background:#05060F;color:#F5F2E9;border:1px solid #2A2E4A;border-radius:8px;margin:8px 8px 8px 0}
+.mkt-form input:focus{outline:none;border-color:#FFCD51}
+.mkt-msg{font-size:13px;color:#C7C9D9;line-height:1.7;margin-top:10px;word-break:break-all}
+.mkt-subhead{font-size:12px;letter-spacing:.22em;text-transform:uppercase;color:#2DD4BF;font-weight:700;margin:30px 0 4px}
 .rm-timeline{position:relative;max-width:860px;margin:48px auto 0;padding-left:40px}
 .rm-timeline::before{content:"";position:absolute;left:12px;top:10px;bottom:10px;width:2px;background:linear-gradient(180deg,#FFCD51,#2DD4BF)}
 .rm-phase{position:relative;background:linear-gradient(180deg,#0E1030,#080A1C);border:1px solid rgba(255,255,255,.08);border-radius:20px;padding:26px 28px;margin-bottom:24px}
@@ -218,6 +229,8 @@ section{padding:48px 0}
 .promptbox,.selbox{font-size:12px}
 .selbox code{font-size:11px}
 .mkt-board{grid-template-columns:1fr 1fr;gap:12px}
+.mkt-grid{grid-template-columns:1fr 1fr;gap:12px}
+.mkt-form input{width:100%;margin:6px 0}
 .mkt-btns a,.mkt-btns button{display:block;width:100%;text-align:center}
 footer{font-size:12px;padding:28px 0 36px}
 }
@@ -309,12 +322,21 @@ footer{font-size:12px;padding:28px 0 36px}
 <div class="sec-head reveal">
 <div class="eyebrow cyan">03 · Market</div>
 <h2>Trade your <em class="grad">pals</em>.</h2>
-<p>Once minted, a pal is yours to keep — or trade. The board below shows the most recently minted pals, pulled live from the chain — never made up.</p>
+<p>Once minted, a pal is yours to keep — or trade. Listings below are live on-chain — never made up. <b>MARKET — LIVE</b></p>
 </div>
+<div class="mkt-form reveal"><h3>■ List your pal</h3>
+<p class="mkt-note" style="margin-top:0">List your pal: enter the token ID and your price in HYPE. Listing moves your NFT into the market contract (escrow) — you can cancel any time to get it back.</p>
+<input id="listTokenId" type="number" min="1" max="10000" placeholder="Token ID">
+<input id="listPrice" type="text" inputmode="decimal" placeholder="Price in HYPE">
+<button class="btn-gold" onclick="listNow()" >LIST FOR SALE</button>
+<div class="mkt-msg" id="marketMsg"></div>
+</div>
+<div class="mkt-grid" id="marketGrid"></div>
+<p class="mkt-note">Market fee: 5% — the seller receives 95% of the sale price. Fees go to the collection owner.</p><p class="mkt-note">Market contract: <code class="hex">0x87cCA9b21E8Eb8c1C9c8bD8795BFcA713b1bD093</code> · <a href="https://elyscan.live/address/0x87cCA9b21E8Eb8c1C9c8bD8795BFcA713b1bD093" target="_blank" rel="noopener">View on Explorer ↗</a></p>
+<div class="mkt-subhead reveal">Recently minted</div>
 <div id="marketEmpty" class="mkt-empty reveal">🌱 <b>No pals on the market yet</b> — mint hasn't opened. Be the first to mint, be the first to list.</div>
 <div id="marketBoard" class="mkt-board" style="display:none"></div>
 <div class="mkt-btns reveal"><a class="btn-ghost" href="https://elyscan.live/address/0x45a29053d8d67DB80EdA68eBD4e48fBF71296c1D" target="_blank" rel="noopener">View on Explorer</a></div>
-<p class="mkt-note">On-chain listing (list / buy on this site) is a separate step if the owner wants it later — this site does not run a marketplace contract. Marketplace links activate once the contract is deployed.</p>
 </section>
 
 <section id="docs">
@@ -348,19 +370,19 @@ Chain: Elysium (99901)<br>
 </div>
 <div class="rm-timeline reveal">
 <div class="rm-phase"><span class="rm-dot" style="background:#FFCD51;box-shadow:0 0 14px rgba(255,205,81,.6)"></span>
-<div class="rm-head"><span class="rm-num">Phase 01</span><span class="rm-status st-prog">In Progress</span></div>
+<div class="rm-head"><span class="rm-num">Phase 01</span><span class="rm-status st-done">Done</span></div>
 <h3>Forest Awakens</h3>
-<p>Artwork, contract, and site built. Contract deploys, metadata goes live at moripals.fun, and mint opens — first 500 free, then 0.002 HYPE.</p>
+<p>Artwork, contract, and site built. Contract deployed, metadata live at moripals.fun, and mint opened 2026-11-10 — first 500 free, then 0.002 HYPE.</p>
 </div>
 <div class="rm-phase"><span class="rm-dot" style="background:#2DD4BF;box-shadow:0 0 14px rgba(45,212,191,.6)"></span>
-<div class="rm-head"><span class="rm-num">Phase 02</span><span class="rm-status st-next">Next</span></div>
+<div class="rm-head"><span class="rm-num">Phase 02</span><span class="rm-status st-prog">In Progress</span></div>
 <h3>First 500</h3>
 <p>The free mint phase. 500 pals claimed free, one first mint per wallet. The market board starts filling with real mints.</p>
 </div>
 <div class="rm-phase"><span class="rm-dot" style="background:#22D3EE;box-shadow:0 0 14px rgba(34,211,238,.6)"></span>
-<div class="rm-head"><span class="rm-num">Phase 03</span><span class="rm-status st-soon">Soon</span></div>
+<div class="rm-head"><span class="rm-num">Phase 03</span><span class="rm-status st-done">Live</span></div>
 <h3>Open Market</h3>
-<p>Trading opens on Elysium marketplaces. The floor forms naturally from real trades — no preset price.</p>
+<p>The on-chain marketplace is live — list, buy, and cancel right here on moripals.fun. Escrow model, 5% fee to the collection owner. The floor forms naturally from real trades — no preset price.</p>
 </div>
 <div class="rm-phase"><span class="rm-dot" style="background:#8B5CF6;box-shadow:0 0 14px rgba(139,92,246,.6)"></span>
 <div class="rm-head"><span class="rm-num">Phase 04</span><span class="rm-status st-soon">Later</span></div>
@@ -378,8 +400,10 @@ Mint runs through your own wallet. Pals live on Elysium.<br>
 </div>
 <script>
 const CONTRACT = "0x45a29053d8d67DB80EdA68eBD4e48fBF71296c1D";
+const MARKET = "0x87cCA9b21E8Eb8c1C9c8bD8795BFcA713b1bD093";
 const RPCS = ["https://rpc.elyscan.live"];
 const SEL_TOTAL = "0xa2309ff8", SEL_PRICEFOR = "0xd527979a", SEL_FREE = "0x5a781a6b", SEL_TOKENURI = "0xc87b56dd", SEL_PAUSED = "0x7e4831d3";
+const SEL_LISTED = "0x05337198", SEL_LISTING = "0x107a274a", SEL_OWNEROF = "0x6352211e", SEL_ISAPPROVED = "0xe985e9c5";
 const TIERS_JS = [
   {char:"Moss Sprout", color:"#2DD4BF"},
   {char:"Mushroom Pal", color:"#FFCD51"},
@@ -459,6 +483,116 @@ async function loadMarket(){
     }
   }
 }
+function shortAddr(a){ return a.slice(0,6)+"…"+a.slice(-4); }
+async function loadListings(){
+  const grid=document.getElementById("marketGrid");
+  if(!grid) return;
+  if(!MARKET){ grid.innerHTML="<div class='mkt-note'>The on-chain market opens after the marketplace contract is deployed.</div>"; return; }
+  grid.innerHTML="<div class='mkt-note'>Loading listings…</div>";
+  const res=await rpcCall(MARKET,SEL_LISTED);
+  if(!res){ grid.innerHTML="<div class='mkt-note'>Could not load listings — check your connection and refresh.</div>"; return; }
+  let ids=[];
+  try{ ids=ethers.AbiCoder.defaultAbiCoder().decode(["uint256[]"],res)[0].map(x=>Number(x)); }catch(e){ grid.innerHTML="<div class='mkt-note'>Could not load listings — check your connection and refresh.</div>"; return; }
+  if(!ids.length){ grid.innerHTML="<div class='mkt-note'>No pals listed yet — be the first to list one below.</div>"; return; }
+  grid.innerHTML="";
+  for(const id of ids){
+    const lres=await rpcCall(MARKET,SEL_LISTING+id.toString(16).padStart(64,"0"));
+    if(!lres) continue;
+    let seller,price,active;
+    try{ [seller,price,active]=ethers.AbiCoder.defaultAbiCoder().decode(["address","uint256","bool"],lres); }catch(e){ continue; }
+    if(!active) continue;
+    let img=tierImgFor("Moss Sprout"), rarity="", charName="";
+    try{
+      const uriRes=await rpcCall(CONTRACT,SEL_TOKENURI+id.toString(16).padStart(64,"0"));
+      const uri=abiDecodeString(uriRes||"");
+      const meta=await (await fetch(uri)).json();
+      const attrs={}; (meta.attributes||[]).forEach(a=>{ attrs[a.trait_type]=a.value; });
+      charName=attrs["Character"]||""; rarity=attrs["Rarity"]||"";
+      const src=tierImgFor(charName); if(src) img=src;
+    }catch(e){}
+    const priceHype=(Number(price)/1e18).toFixed(5);
+    const mine=userAddr&&seller.toLowerCase()===userAddr.toLowerCase();
+    const card=document.createElement("div"); card.className="mkt-card";
+    card.innerHTML='<img src="'+img+'" alt="MORIPALS #'+id+'"><div class="mkt-body"><b>MORIPALS #'+id+'</b><span>'+(rarity?rarity+" · ":"")+charName+'</span><div class="mkt-price">'+priceHype+' HYPE</div><div class="mkt-seller">Seller: '+shortAddr(seller)+'</div><div class="mkt-row">'+(mine?'<button class="btn-ghost" onclick="cancelNow('+id+')">CANCEL</button><button class="btn-ghost" onclick="updatePriceNow('+id+')">UPDATE PRICE</button>':'<button class="btn-gold" onclick="buyNow('+id+',&quot;'+price.toString()+'&quot;)">BUY</button>')+'</div></div>';
+    grid.appendChild(card);
+  }
+  if(!grid.children.length){ grid.innerHTML="<div class='mkt-note'>No pals listed yet — be the first to list one below.</div>"; }
+}
+async function listNow(){
+  const msg=document.getElementById("marketMsg");
+  if(!MARKET){ msg.textContent="The market is not live yet."; return; }
+  if(!signer){ await connectWallet(); if(!signer) return; }
+  const id=parseInt(document.getElementById("listTokenId").value);
+  const priceStr=document.getElementById("listPrice").value;
+  if(!id||id<1||id>10000){ msg.textContent="Enter a valid token ID (1–10,000)."; return; }
+  let priceWei;
+  try{ priceWei=ethers.parseEther(priceStr); }catch(e){ priceWei=0n; }
+  if(priceWei<=0n){ msg.textContent="Enter a valid price in HYPE (more than 0)."; return; }
+  try{
+    const ores=await rpcCall(CONTRACT,SEL_OWNEROF+id.toString(16).padStart(64,"0"));
+    if(!ores){ msg.textContent="Could not check the token owner — try again."; return; }
+    const tokenOwner=ethers.AbiCoder.defaultAbiCoder().decode(["address"],ores)[0];
+    if(tokenOwner.toLowerCase()!==userAddr.toLowerCase()){ msg.textContent="You don't own that token — only the owner can list it."; return; }
+    const ares=await rpcCall(CONTRACT,SEL_ISAPPROVED+userAddr.slice(2).padStart(64,"0")+MARKET.slice(2).padStart(64,"0"));
+    const approved=ares?ethers.AbiCoder.defaultAbiCoder().decode(["bool"],ares)[0]:false;
+    if(!approved){
+      msg.textContent="Approving the market contract to move your NFT — confirm in your wallet…";
+      const ifaceA=new ethers.Interface(["function setApprovalForAll(address operator, bool approved)"]);
+      const txA=await signer.sendTransaction({to:CONTRACT,data:ifaceA.encodeFunctionData("setApprovalForAll",[MARKET,true])});
+      await txA.wait();
+    }
+    const iface=new ethers.Interface(["function list(uint256 tokenId, uint256 price)"]);
+    const tx=await signer.sendTransaction({to:MARKET,data:iface.encodeFunctionData("list",[id,priceWei])});
+    msg.textContent="Transaction sent: "+tx.hash+" — waiting for confirmation…";
+    await tx.wait();
+    msg.textContent="Listed! Tx: "+tx.hash;
+    loadListings();
+  }catch(e){ msg.textContent="List failed: "+(e.reason||e.message||e); }
+}
+async function buyNow(id,priceWei){
+  const msg=document.getElementById("marketMsg");
+  if(!MARKET) return;
+  if(!signer){ await connectWallet(); if(!signer) return; }
+  try{
+    const iface=new ethers.Interface(["function buy(uint256 tokenId)"]);
+    const tx=await signer.sendTransaction({to:MARKET,data:iface.encodeFunctionData("buy",[id]),value:BigInt(priceWei)});
+    msg.textContent="Transaction sent: "+tx.hash+" — waiting for confirmation…";
+    await tx.wait();
+    msg.textContent="Bought! Tx: "+tx.hash;
+    loadListings(); refresh();
+  }catch(e){ msg.textContent="Buy failed: "+(e.reason||e.message||e); }
+}
+async function cancelNow(id){
+  const msg=document.getElementById("marketMsg");
+  if(!MARKET) return;
+  if(!signer){ await connectWallet(); if(!signer) return; }
+  try{
+    const iface=new ethers.Interface(["function cancel(uint256 tokenId)"]);
+    const tx=await signer.sendTransaction({to:MARKET,data:iface.encodeFunctionData("cancel",[id])});
+    msg.textContent="Transaction sent: "+tx.hash+" — waiting for confirmation…";
+    await tx.wait();
+    msg.textContent="Listing cancelled — your pal is back in your wallet. Tx: "+tx.hash;
+    loadListings();
+  }catch(e){ msg.textContent="Cancel failed: "+(e.reason||e.message||e); }
+}
+async function updatePriceNow(id){
+  const msg=document.getElementById("marketMsg");
+  if(!MARKET) return;
+  if(!signer){ await connectWallet(); if(!signer) return; }
+  const v=window.prompt("New price in HYPE:");
+  if(v===null) return;
+  let priceWei;
+  try{ priceWei=ethers.parseEther(v); }catch(e){ priceWei=0n; }
+  if(priceWei<=0n){ msg.textContent="Enter a valid price in HYPE (more than 0)."; return; }
+  try{
+    const iface=new ethers.Interface(["function updatePrice(uint256 tokenId, uint256 newPrice)"]);
+    const tx=await signer.sendTransaction({to:MARKET,data:iface.encodeFunctionData("updatePrice",[id,priceWei])});
+    msg.textContent="Transaction sent: "+tx.hash+" — waiting for confirmation…";
+    await tx.wait();
+    msg.textContent="Price updated! Tx: "+tx.hash;
+    loadListings();
+  }catch(e){ msg.textContent="Update price failed: "+(e.reason||e.message||e); }
+}
 function setPausedUI(paused){
   ["mintBtn","mintBtnHero"].forEach(id=>{ const b=document.getElementById(id); if(b){ b.disabled=paused; b.textContent=paused?"MINT — COMING SOON":"MINT NOW"; }});
   const ms=document.getElementById("mintStatus"); if(ms) ms.textContent=paused?"Mint status: COMING SOON":"Mint status: LIVE";
@@ -474,6 +608,7 @@ async function refresh(){
   const paused=!pres || BigInt(pres)===1n;
   setPausedUI(paused);
   loadMarket();
+  loadListings();
 }
 function setQty(v){ document.getElementById("qty").value=v; updateCost(); }
 // Agent minting is not available on Elysium — wallet mint only.
