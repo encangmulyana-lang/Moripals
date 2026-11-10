@@ -36,6 +36,9 @@ const OWNER = "0x214F559a3E6eca561AA7aa304FA7d2aDa98Eceab";
 const ABI = ["function setMintPaused(bool paused) external","function mintPaused() public view returns (bool)","function owner() public view returns (address)"];
 let provider, signer, contract;
 const $ = id => document.getElementById(id);
+// Kalau wallet ganti jaringan saat halaman terbuka, ethers v6 menolak provider lama
+// (NETWORK_ERROR "network changed") — reload halaman supaya provider dibuat ulang.
+if (window.ethereum && window.ethereum.on) window.ethereum.on("chainChanged", () => location.reload());
 $("connect").onclick = async () => {
   try {
     if (!window.ethereum) { $("wallet").textContent = "Wallet tidak ditemukan. Buka halaman ini di dalam browser aplikasi wallet (Bitget Wallet)."; return; }
@@ -48,6 +51,8 @@ $("connect").onclick = async () => {
         if (e && e.code === 4902) { await window.ethereum.request({method:"wallet_addEthereumChain",params:[{chainId:"0x1863d",chainName:"Elysium",nativeCurrency:{name:"HYPE",symbol:"HYPE",decimals:18},rpcUrls:["https://rpc.elyscan.live"],blockExplorerUrls:["https://elyscan.live"]}]}); }
         else throw e;
       }
+      // Provider lama dibuat saat wallet masih di chain 1 — buat ulang setelah pindah jaringan.
+      provider = new ethers.BrowserProvider(window.ethereum);
       net = await provider.getNetwork();
     }
     if (net.chainId !== 99901n) { $("wallet").textContent = "Jaringan salah: pindah ke Elysium (99901) dulu."; return; }
