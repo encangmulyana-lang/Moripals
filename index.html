@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>MORIPALS — Forest Pals on Elysium</title>
+<title>MORIPALS — Forest Pals on BNB Chain</title>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,600;1,700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/ethers@6.13.2/dist/ethers.umd.min.js"></script>
 <style>
@@ -26,8 +26,8 @@ header{position:fixed;top:0;left:0;right:0;z-index:50;display:flex;justify-conte
 .navpills a:hover{color:#FFCD51}
 .navpills .dim{color:#8A8FA8;cursor:default}
 .navpills .nav-x-mob{display:none}
-.hero{min-height:100vh;display:grid;grid-template-columns:1.35fr .65fr;gap:56px;align-items:center;padding:140px 0 90px;position:relative}
-.orb{position:absolute;width:340px;height:340px;border-radius:50%;right:4%;top:16%;background:radial-gradient(circle,rgba(45,212,191,.5),rgba(45,212,191,.12) 45%,transparent 70%);box-shadow:0 0 120px 40px rgba(45,212,191,.22);filter:blur(1px);z-index:0;transition:background .6s,box-shadow .6s;pointer-events:none}
+.hero{min-height:100vh;display:grid;grid-template-columns:1.35fr .65fr;gap:56px;align-items:center;padding:140px 0 90px;position:relative;overflow:hidden}
+.orb{position:absolute;width:340px;height:340px;border-radius:50%;right:4%;top:16%;background:radial-gradient(circle,rgba(45,212,191,.5),rgba(45,212,191,.12) 45%,transparent 70%);box-shadow:0 0 120px 40px rgba(45,212,191,.22);filter:blur(1px);z-index:0;transition:background .8s,box-shadow .8s;pointer-events:none}
 .hero-left{position:relative;z-index:2}
 .hero h1{font-size:clamp(44px,6.2vw,92px);line-height:1.05;margin:22px 0 26px}
 .lede{max-width:560px;font-size:16px;line-height:1.7}
@@ -110,7 +110,7 @@ section{padding:140px 0}
 .tier-card{background:linear-gradient(180deg,#0E1030,#080A1C);border:1px solid rgba(255,255,255,.08);border-radius:20px;overflow:hidden;position:relative;transition:transform .2s,border-color .2s}
 .tier-card:hover{transform:translateY(-4px);border-color:rgba(255,205,81,.5)}
 .tier-card .num{position:absolute;top:14px;left:14px;background:rgba(5,6,15,.85);color:#F5F2E9;font-family:'Playfair Display',serif;font-weight:700;padding:6px 14px;border-radius:999px;font-size:14px;z-index:2}
-.tier-card img{width:100%;aspect-ratio:4/3;object-fit:cover;display:block}
+.tier-card img{width:100%;aspect-ratio:4/3;object-fit:contain;background:#080A1C;display:block}
 .tier-body{padding:20px}
 .tier-body .rarity{font-size:12px;letter-spacing:.18em;text-transform:uppercase;font-weight:700}
 .tier-body h3{font-size:22px;margin:8px 0 4px}
@@ -120,7 +120,7 @@ section{padding:140px 0}
 .mkt-board{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
 .mkt-card{background:linear-gradient(180deg,#0E1030,#080A1C);border:1px solid rgba(255,255,255,.08);border-radius:16px;overflow:hidden;transition:transform .2s,border-color .2s}
 .mkt-card:hover{transform:translateY(-3px);border-color:rgba(255,205,81,.5)}
-.mkt-card img{width:100%;aspect-ratio:4/3;object-fit:cover;display:block}
+.mkt-card img{width:100%;aspect-ratio:4/3;object-fit:contain;background:#080A1C;display:block}
 .mkt-body{padding:14px 16px}
 .mkt-body b{display:block;font-family:'Playfair Display',serif;font-size:18px;color:#F5F2E9}
 .mkt-body span{display:block;font-size:12px;color:#8A8FA8;margin-top:2px}
@@ -257,33 +257,64 @@ section{padding:48px 0}
 .mkt-btns a,.mkt-btns button{display:block;width:100%;text-align:center}
 footer{font-size:12px;padding:28px 0 36px}
 }
+
+/* v2: hero entrance, press feedback, no-wallet warning, $MORP */
+@keyframes rise{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:none}}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+.hero-left>*{animation:rise .7s cubic-bezier(.2,.8,.2,1) both}
+.hero-left>*:nth-child(2){animation-delay:.08s}
+.hero-left>*:nth-child(3){animation-delay:.16s}
+.hero-left>*:nth-child(4){animation-delay:.24s}
+.hero-left>*:nth-child(5){animation-delay:.32s}
+.hero-right{animation:fadeIn .9s .25s both}
+.btn-gold:active,.btn-ghost:active{transform:scale(.96)}
+.tier-card:active{transform:scale(.97)}
+.mkt-card:active{transform:scale(.97)}
+.nowallet{display:none;background:rgba(255,80,80,.12);border:1px solid #ff5050;color:#ffb3b3;font-size:13px;line-height:1.7;padding:12px 14px;margin-top:12px;border-radius:12px}
+.nowallet.show{display:block}
+.morp{background:linear-gradient(180deg,#0E1030,#080A1C);border:1px solid rgba(255,205,81,.5);border-radius:24px;padding:48px 56px}
+.morp-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:8px}
+.morp-stat{padding:18px 20px;background:rgba(5,6,15,.6);border:1px solid rgba(255,255,255,.08);border-radius:16px;text-align:center}
+.morp-stat b{display:block;font-family:'Playfair Display',serif;font-size:36px;color:#F5F2E9;line-height:1.1}
+.morp-stat b.gold{color:#FFC53D}
+.morp-stat span{font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:#8A8FA8}
+.morp-note{margin-top:24px;font-size:14px;line-height:1.8}
+.morp .hero-cta{margin-top:28px}
+@media (max-width:900px){
+.morp{padding:32px 20px}
+.morp-stat b{font-size:26px}
+}
+@media (max-width:560px){
+.morp-grid{grid-template-columns:1fr}
+}
 </style></head>
 <body><canvas id="sky"></canvas>
 <div class="page">
-<header><div class="brand">✦ <b>MORIPALS</b></div><nav class="navpills"><a href="#mint">Mint</a><a href="#market">Market</a><a href="#rarity" class="nav-opt">Rarity</a><a href="#docs" class="nav-opt">Docs</a><a href="#roadmap" class="nav-opt">Roadmap</a><a href="https://x.com/moripals" target="_blank" rel="noopener" class="nav-opt">𝕏 @moripals</a><a href="https://x.com/moripals" target="_blank" rel="noopener" class="nav-x-mob" aria-label="X @moripals">𝕏</a></nav><button class="burger" id="burgerBtn" onclick="toggleMenu()" aria-label="Menu"><span></span><span></span><span></span></button></header>
+<header><div class="brand">✦ <b>MORIPALS</b></div><nav class="navpills"><a href="#mint">Mint</a><a href="#market">Market</a><a href="#rarity" class="nav-opt">Rarity</a><a href="#morp" class="nav-opt">$MORP</a><a href="#docs" class="nav-opt">Docs</a><a href="#roadmap" class="nav-opt">Roadmap</a><a href="https://x.com/moripals" target="_blank" rel="noopener" class="nav-opt">𝕏 @moripals</a><a href="https://x.com/moripals" target="_blank" rel="noopener" class="nav-x-mob" aria-label="X @moripals">𝕏</a></nav><button class="burger" id="burgerBtn" onclick="toggleMenu()" aria-label="Menu"><span></span><span></span><span></span></button></header>
 <div class="scrim" id="scrim" onclick="toggleMenu()"></div>
 <aside class="drawer" id="drawer"><div class="dlogo">✦ <b>MORIPALS</b></div>
 <a class="dlink cta" href="#mint" onclick="toggleMenu()">🌱 Mint Your Pal</a>
 <a class="dlink" href="#market" onclick="toggleMenu()">■ Market</a>
+<a class="dlink" href="#morp" onclick="toggleMenu()">■ $MORP Token</a>
 <a class="dlink" href="#rarity" onclick="toggleMenu()">■ Rarity</a>
 <a class="dlink" href="#docs" onclick="toggleMenu()">■ Docs</a>
 <a class="dlink" href="#roadmap" onclick="toggleMenu()">■ Roadmap</a>
 <a class="dlink" href="https://x.com/moripals" target="_blank" rel="noopener">𝕏 @moripals</a>
-<div class="dfoot">10,000 FOREST PALS<br>FIRST MINT FREE · ELYSIUM</div></aside>
+<div class="dfoot">10,000 FOREST PALS<br>FIRST MINT FREE · BNB CHAIN</div></aside>
 <div class="wrap">
 <section class="hero">
 <div class="orb" id="orb"></div>
 <div class="hero-left">
-<div class="eyebrow cyan">Forest Pals · Elysium</div>
+<div class="eyebrow cyan">Forest Pals · BNB Chain</div>
 <h1>A forest that grows<br>up <em class="grad">alive</em>, in 3D,<br>on-chain.</h1>
-<p class="lede">10,000 cute forest pals, born in the deep green forest and minted on Elysium. Your first pal is free — while 500 free mints last. After that, just 0.002 HYPE. No grind. Just pals.</p>
+<p class="lede">10,000 cute forest pals, born in the deep green forest and minted on BNB Chain. Your first pal is free — every wallet's first mint is free, no pool cap. After that, tiered pricing from 0.00015 BNB. No grind. Just pals.</p>
 <div class="tierpills"><button class="pill on" style="--tc:#2DD4BF" onclick="selectTier(0)">Moss Sprout</button><button class="pill" style="--tc:#FFCD51" onclick="selectTier(1)">Mushroom Pal</button><button class="pill" style="--tc:#22D3EE" onclick="selectTier(2)">Firefly Friend</button><button class="pill" style="--tc:#3B82F6" onclick="selectTier(3)">Forest Guardian</button><button class="pill" style="--tc:#EC4899" onclick="selectTier(4)">Ancient Treant</button><button class="pill" style="--tc:#8B5CF6" onclick="selectTier(5)">Mori Spirit</button></div>
 <div class="hero-cta"><button class="btn-gold" onclick="mintNow()" id="mintBtnHero">MINT NOW</button></div>
 </div>
 <div class="hero-right">
 <div class="stat-row"><b id="mintedHero">0</b><span>Minted</span></div>
 <div class="minibar hero-bar"><i id="barFillHero"></i></div>
-<div class="stat-row"><b class="gold" id="freeHero">500</b><span>Free left</span></div>
+<div class="stat-row"><b class="gold">FREE</b><span>First mint</span></div>
 <div class="stat-row"><b>6</b><span>Pals</span></div>
 </div>
 <div class="hero-hint">Drag to orbit · Scroll to zoom</div>
@@ -298,7 +329,7 @@ footer{font-size:12px;padding:28px 0 36px}
 <p>From the mossy forest floor to the tallest treant, every pal belongs to the same forest. Six friends, one forest — 10,000 pals in total, each one a random draw when you mint.</p></div>
 </div>
 </div>
-<div class="timeline"><div class="tl-item"><span class="tl-dot" style="background:#2DD4BF;box-shadow:0 0 14px #2DD4BF"></span><span class="tl-txt"><b>Moss Sprout</b><span>Common · 5,000</span></span></div><div class="tl-item"><span class="tl-dot" style="background:#FFCD51;box-shadow:0 0 14px #FFCD51"></span><span class="tl-txt"><b>Mushroom Pal</b><span>Uncommon · 2,500</span></span></div><div class="tl-item"><span class="tl-dot" style="background:#22D3EE;box-shadow:0 0 14px #22D3EE"></span><span class="tl-txt"><b>Firefly Friend</b><span>Rare · 1,500</span></span></div><div class="tl-item"><span class="tl-dot" style="background:#3B82F6;box-shadow:0 0 14px #3B82F6"></span><span class="tl-txt"><b>Forest Guardian</b><span>Epic · 700</span></span></div><div class="tl-item"><span class="tl-dot" style="background:#EC4899;box-shadow:0 0 14px #EC4899"></span><span class="tl-txt"><b>Ancient Treant</b><span>Legendary · 250</span></span></div><div class="tl-item"><span class="tl-dot" style="background:#8B5CF6;box-shadow:0 0 14px #8B5CF6"></span><span class="tl-txt"><b>Mori Spirit</b><span>Mythic · 50</span></span></div></div>
+<div class="timeline"><div class="tl-item reveal" style="--d:0.00s"><span class="tl-dot" style="background:#2DD4BF;box-shadow:0 0 14px #2DD4BF"></span><span class="tl-txt"><b>Moss Sprout</b><span>Common · 5,000</span></span></div><div class="tl-item reveal" style="--d:0.06s"><span class="tl-dot" style="background:#FFCD51;box-shadow:0 0 14px #FFCD51"></span><span class="tl-txt"><b>Mushroom Pal</b><span>Uncommon · 2,500</span></span></div><div class="tl-item reveal" style="--d:0.12s"><span class="tl-dot" style="background:#22D3EE;box-shadow:0 0 14px #22D3EE"></span><span class="tl-txt"><b>Firefly Friend</b><span>Rare · 1,500</span></span></div><div class="tl-item reveal" style="--d:0.18s"><span class="tl-dot" style="background:#3B82F6;box-shadow:0 0 14px #3B82F6"></span><span class="tl-txt"><b>Forest Guardian</b><span>Epic · 700</span></span></div><div class="tl-item reveal" style="--d:0.24s"><span class="tl-dot" style="background:#EC4899;box-shadow:0 0 14px #EC4899"></span><span class="tl-txt"><b>Ancient Treant</b><span>Legendary · 250</span></span></div><div class="tl-item reveal" style="--d:0.30s"><span class="tl-dot" style="background:#8B5CF6;box-shadow:0 0 14px #8B5CF6"></span><span class="tl-txt"><b>Mori Spirit</b><span>Mythic · 50</span></span></div></div>
 </section>
 
 <section id="mint">
@@ -308,16 +339,16 @@ footer{font-size:12px;padding:28px 0 36px}
 <div class="sec-head">
 <div class="eyebrow gold">01 · Mint</div>
 <h2>Your first pal<br>is <em class="grad">free</em>.</h2>
-<p>Mint pertamamu <b style="color:#FFC53D">FREE</b> — selama <b style="color:#FFC53D">500</b> gratis tersisa — selanjutnya <b style="color:#FFC53D">0.002 HYPE</b>. Max 10 pals per wallet, max 10 per transaction. Mint from your wallet.</p>
+<p>Mint pertamamu <b style="color:#FFC53D">FREE</b> — setiap wallet gratis 1 pal pertama, tanpa batas pool. Selanjutnya harga bertingkat <b style="color:#FFC53D">0.00015 – 0.0008 BNB</b>. Max 30 pals per wallet, max 10 per transaction. Mint from your wallet.</p>
 </div>
 <div class="stat3">
 <div><b>10,000</b><span class="lbl-full">Total supply</span><span class="lbl-short">Supply</span></div>
-<div><b class="gold" id="freeStat">500</b><span class="lbl-full">Free mints</span><span class="lbl-short">Free</span></div>
+<div><b class="gold">FREE</b><span class="lbl-full">First mint</span><span class="lbl-short">Free</span></div>
 <div><b id="mintedStat">0</b><span class="lbl-full">Minted</span><span class="lbl-short">Minted</span></div>
 </div>
 <div class="bar"><i id="barFill"></i></div>
 <div id="barLabel">Loading live count…</div>
-<div id="freeRule">🌱 Mint pertamamu <b>FREE</b> — selama <b id="freeLeft">500</b> gratis tersisa — selanjutnya <b>0.002 HYPE</b>. Max 10 pals per wallet.</div>
+<div id="freeRule">🌱 Mint pertamamu <b>FREE</b> — 1 pal pertama per wallet gratis, tanpa batas pool. Mint #2–10: <b>0.00015 BNB</b> · #11–20: <b>0.0004 BNB</b> · #21–30: <b>0.0008 BNB</b>. Max 30 pals per wallet.</div>
 <div class="mintform">
 <label>Quantity (1–10)</label>
 <div class="qtyrow"><input type="number" id="qty" min="1" max="10" value="1"><button class="btn-ghost" onclick="setQty(10)" style="padding:14px 22px">MAX 10</button></div>
@@ -325,17 +356,19 @@ footer{font-size:12px;padding:28px 0 36px}
 <div id="totalCost">Total: connect your wallet to see your price</div>
 <button class="btn-ghost" onclick="connectWallet()" id="connectBtn" style="margin-top:16px">CONNECT WALLET</button><br>
 <button class="btn-gold" onclick="mintNow()" id="mintBtn">MINT NOW</button>
-<div id="walletNote">No browser wallet? Open this site inside your wallet app browser (Bitget Wallet / MetaMask). Minting needs HYPE for gas. Your first mint per wallet is FREE while free supply lasts — you only pay gas.</div>
+<div id="walletNote">No browser wallet? Open this site inside your wallet app browser (MetaMask / Trust Wallet / Binance Wallet). Minting needs BNB for gas. Your first mint per wallet is FREE — you only pay gas.</div>
+<div class="nowallet" id="noWalletWarn"></div>
 </div>
-<div style="font-size:13px;color:#8A8FA8;line-height:1.7">Contract: <span id="contractAddr2">0x45a29053d8d67DB80EdA68eBD4e48fBF71296c1D</span> · chain: Elysium (99901)</div>
+<div style="font-size:13px;color:#8A8FA8;line-height:1.7">Contract: <span id="contractAddr2">0x482A4bD1BCC01621601C6EFDE18eC6beC0dbcC11</span> · chain: BNB Smart Chain (56)</div>
 <div id="mintMsg"></div>
 </div>
 <div class="ladder">
 <h3>Price Ladder</h3>
-<div class="ladder-row"><span>First mint per wallet*</span><span>FREE (0 HYPE)</span></div>
-<div class="ladder-row"><span>Every mint after that</span><span>0.002 HYPE</span></div>
-<div class="ladder-row"><span>After 500 free mints run out</span><span>0.002 HYPE (all mints)</span></div>
-<p class="ladder-note">*The free first mint is limited to 500 total free mints across all wallets — first come, first served. Once the 500 are gone, every mint costs 0.002 HYPE. Max 10 pals per wallet, max 10 per transaction. Gas is separate and paid per transaction.</p>
+<div class="ladder-row"><span>Mint #1 per wallet</span><span>FREE (0 BNB)</span></div>
+<div class="ladder-row"><span>Mints #2–10</span><span>0.00015 BNB each</span></div>
+<div class="ladder-row"><span>Mints #11–20</span><span>0.0004 BNB each</span></div>
+<div class="ladder-row"><span>Mints #21–30</span><span>0.0008 BNB each</span></div>
+<p class="ladder-note">Your first mint per wallet is always FREE — no pool cap, no time limit. The price you pay depends only on how many you have already minted. Max 30 pals per wallet, max 10 per transaction. Gas is separate and paid per transaction.</p>
 </div>
 </div>
 </div>
@@ -357,46 +390,64 @@ footer{font-size:12px;padding:28px 0 36px}
 <p>Once minted, a pal is yours to keep — or trade. Listings below are live on-chain — never made up. <b>MARKET — LIVE</b></p>
 </div>
 <div class="mkt-form reveal"><h3>■ List your pal</h3>
-<p class="mkt-note" style="margin-top:0">List your pal: enter the token ID and your price in HYPE. Listing moves your NFT into the market contract (escrow) — you can cancel any time to get it back.</p>
+<p class="mkt-note" style="margin-top:0">List your pal: enter the token ID and your price in BNB. Listing moves your NFT into the market contract (escrow) — you can cancel any time to get it back.</p>
 <input id="listTokenId" type="number" min="1" max="10000" placeholder="Token ID">
-<input id="listPrice" type="text" inputmode="decimal" placeholder="Price in HYPE">
+<input id="listPrice" type="text" inputmode="decimal" placeholder="Price in BNB">
 <button class="btn-gold" onclick="listNow()" >LIST FOR SALE</button>
 <div class="mkt-msg" id="marketMsg"></div>
+<div class="nowallet" id="noWalletWarnMkt"></div>
 </div>
 <div class="mkt-grid" id="marketGrid"></div>
-<p class="mkt-note">Market fee: 5% — the seller receives 95% of the sale price. Fees go to the collection owner.</p><p class="mkt-note">Market contract: <code class="hex">0x87cCA9b21E8Eb8c1C9c8bD8795BFcA713b1bD093</code> · <a href="https://elyscan.live/address/0x87cCA9b21E8Eb8c1C9c8bD8795BFcA713b1bD093" target="_blank" rel="noopener">View on Explorer ↗</a></p>
+<p class="mkt-note">Market fee: 5% — the seller receives 95% of the sale price. Fees go to the collection owner.</p><p class="mkt-note">Market contract: <code class="hex">0x73b33A5606E0FD04ADA31e83Bd79b91433799043</code> · <a href="https://bscscan.com/address/0x73b33A5606E0FD04ADA31e83Bd79b91433799043" target="_blank" rel="noopener">View on Explorer ↗</a></p>
 <div class="mkt-subhead reveal">Recently minted</div>
-<div id="marketEmpty" class="mkt-empty reveal">🌱 <b>No pals on the market yet</b> — mint hasn't opened. Be the first to mint, be the first to list.</div>
+<div id="marketEmpty" class="mkt-empty reveal">🌱 <b>No pals on the market yet</b> — be the first to mint, be the first to list.</div>
 <div id="marketBoard" class="mkt-board" style="display:none"></div>
-<div class="mkt-btns reveal"><a class="btn-ghost" href="https://elyscan.live/address/0x45a29053d8d67DB80EdA68eBD4e48fBF71296c1D" target="_blank" rel="noopener">View on Explorer</a></div>
+<div class="mkt-btns reveal"><a class="btn-ghost" href="https://bscscan.com/address/0x482A4bD1BCC01621601C6EFDE18eC6beC0dbcC11" target="_blank" rel="noopener">View on Explorer</a></div>
+</section>
+
+<section id="morp">
+<div class="sec-head reveal">
+<div class="eyebrow gold">04 · $MORP Token</div>
+<h2>Hold a pal,<br>claim <em class="grad">$MORP</em>.</h2>
+<p>Every Moripals v2 NFT can claim 10,000 $MORP, once. The claim costs 0.00016 BNB per NFT — the fee goes to the collection owner. $MORP is minted on claim, so there is no presale and no transfer to wait for.</p>
+</div>
+<div class="morp reveal">
+<div class="morp-grid">
+<div class="morp-stat"><b>10,000</b><span>MORP per NFT</span></div>
+<div class="morp-stat"><b class="gold">0.00016 BNB</b><span>Claim fee / NFT</span></div>
+<div class="morp-stat"><b>200M</b><span>Total cap</span></div>
+</div>
+<p class="morp-note">Treasury: 100,000,000 MORP held by the collection owner. The other 100,000,000 MORP is claimable by holders — 10,000 per pal, one claim per token ID, v2 NFTs only.</p>
+<div class="hero-cta"><a class="btn-gold" href="claim.html">CLAIM $MORP</a><a class="btn-ghost" href="https://bscscan.com/token/0xff88E964403F6EDb7d93d19BaF4BAF186CceCb56" target="_blank" rel="noopener">View $MORP ↗</a></div>
+<p class="mkt-note">Token contract: <code class="hex">0xff88E964403F6EDb7d93d19BaF4BAF186CceCb56</code> · Claim contract: <code class="hex">0xB424Ed736C9078FE3893A7BDa2B8047cC57077E1</code></p>
+</div>
 </section>
 
 <section id="docs">
 <div class="docs reveal">
-<div class="eyebrow teal">04 · Docs</div>
+<div class="eyebrow teal">05 · Docs</div>
 <div class="sec-head" style="margin-bottom:28px"><h2>How it <em class="grad">works</em>.</h2></div>
 <ol>
-<li>Connect your wallet (Elysium). <b>Your first mint is free</b> while 500 free mints last.</li>
-<li>Pick a quantity (1–10). The site shows your exact total — your first pal is free, the rest cost 0.002 HYPE each.</li>
+<li>Connect your wallet (BNB Chain). <b>Your first mint is free</b> — every wallet gets 1 free pal, no pool cap.</li>
+<li>Pick a quantity (1–10). The site shows your exact total from the contract — your first pal is free, then 0.00015 / 0.0004 / 0.0008 BNB by how many you have minted.</li>
 <li>Confirm in your wallet. Your pal is a random draw from the six forest friends.</li>
-<li>No browser wallet? Open this site inside a wallet app browser (Bitget Wallet / MetaMask).</li>
+<li>No browser wallet? Open this site inside a wallet app browser (MetaMask / Trust Wallet / Binance Wallet).</li>
 </ol>
 <div class="selbox">
-Mint with your wallet on Elysium — connect above and use MINT NOW.<br>
-Contract: <code class="hex" id="contractAddr">0x45a29053d8d67DB80EdA68eBD4e48fBF71296c1D</code>
+Mint with your wallet on BNB Chain — connect above and use MINT NOW.<br>
+Contract: <code class="hex" id="contractAddr">0x482A4bD1BCC01621601C6EFDE18eC6beC0dbcC11</code>
 mint(uint256): <code class="hex">0xa0712d68</code>
 priceFor(address,uint256): <code class="hex">0xd527979a</code>
-freeRemaining(): <code class="hex">0x5a781a6b</code>
 totalMinted(): <code class="hex">0xa2309ff8</code>
-Chain: Elysium (99901)<br>
-<span class="sel-note">Note: your first mint is free while 500 free mints last, then 0.002 HYPE per mint.</span>
+Chain: BNB Smart Chain (56)<br>
+<span class="sel-note">Note: your first mint per wallet is free (no cap), then 0.00015 / 0.0004 / 0.0008 BNB per mint.</span>
 </div>
 </div>
 </section>
 
 <section id="roadmap">
 <div class="sec-head reveal">
-<div class="eyebrow cyan">05 · Roadmap</div>
+<div class="eyebrow cyan">06 · Roadmap</div>
 <h2>Where the forest <em class="grad">grows</em>.</h2>
 <p>No promises we can't keep — just the path ahead, in order.</p>
 </div>
@@ -404,12 +455,12 @@ Chain: Elysium (99901)<br>
 <div class="rm-phase"><span class="rm-dot" style="background:#FFCD51;box-shadow:0 0 14px rgba(255,205,81,.6)"></span>
 <div class="rm-head"><span class="rm-num">Phase 01</span><span class="rm-status st-done">Done</span></div>
 <h3>Forest Awakens</h3>
-<p>Artwork, contract, and site built. Contract deployed, metadata live at moripals.fun, and mint opened 2026-11-10 — first 500 free, then 0.002 HYPE.</p>
+<p>Artwork, contract, and site built. Moripals v2 deployed on BNB Chain, metadata live at moripals.fun, market live.</p>
 </div>
 <div class="rm-phase"><span class="rm-dot" style="background:#2DD4BF;box-shadow:0 0 14px rgba(45,212,191,.6)"></span>
 <div class="rm-head"><span class="rm-num">Phase 02</span><span class="rm-status st-prog">In Progress</span></div>
-<h3>First 500</h3>
-<p>The free mint phase. 500 pals claimed free, one first mint per wallet. The market board starts filling with real mints.</p>
+<h3>Back on BNB</h3>
+<p>The revamp. First mint free per wallet — no pool cap — then tiered pricing, plus the $MORP claim token for holders. The market board starts filling with real mints.</p>
 </div>
 <div class="rm-phase"><span class="rm-dot" style="background:#22D3EE;box-shadow:0 0 14px rgba(34,211,238,.6)"></span>
 <div class="rm-head"><span class="rm-num">Phase 03</span><span class="rm-status st-done">Live</span></div>
@@ -426,16 +477,16 @@ Chain: Elysium (99901)<br>
 </section>
 </div>
 <footer><b>MORIPALS</b> · moripals.fun · <a href="https://x.com/moripals" target="_blank" rel="noopener">𝕏 @moripals</a><br>
-Mint runs through your own wallet. Pals live on Elysium.<br>
-<span id="contractFoot">0x45a29053d8d67DB80EdA68eBD4e48fBF71296c1D</span><br>
+Mint runs through your own wallet. Pals live on BNB Chain.<br>
+<span id="contractFoot">0x482A4bD1BCC01621601C6EFDE18eC6beC0dbcC11</span><br>
 <span id="mintStatus">Mint status: LIVE</span> · forest pals edition</footer>
 </div>
 <a href="#mint" id="mobileCta">🌱 <span id="ctaCount">…</span> / 10,000 · MINT FREE</a>
 <script>
-const CONTRACT = "0x45a29053d8d67DB80EdA68eBD4e48fBF71296c1D";
-const MARKET = "0x87cCA9b21E8Eb8c1C9c8bD8795BFcA713b1bD093";
-const RPCS = ["https://rpc.elyscan.live"];
-const SEL_TOTAL = "0xa2309ff8", SEL_PRICEFOR = "0xd527979a", SEL_FREE = "0x5a781a6b", SEL_TOKENURI = "0xc87b56dd", SEL_PAUSED = "0x7e4831d3";
+const CONTRACT = "0x482A4bD1BCC01621601C6EFDE18eC6beC0dbcC11";
+const MARKET = "0x73b33A5606E0FD04ADA31e83Bd79b91433799043";
+const RPCS = ["https://bsc-dataseed.bnbchain.org","https://rpc-bsc.48.club"];
+const SEL_TOTAL = "0xa2309ff8", SEL_PRICEFOR = "0xd527979a", SEL_TOKENURI = "0xc87b56dd", SEL_PAUSED = "0x7e4831d3";
 const SEL_LISTED = "0x05337198", SEL_LISTING = "0x107a274a", SEL_OWNEROF = "0x6352211e", SEL_ISAPPROVED = "0xe985e9c5";
 const TIERS_JS = [
   {char:"Moss Sprout", color:"#2DD4BF"},
@@ -459,15 +510,45 @@ async function rpcCall(to,data){
       const j=await r.json(); if(j.result) return j.result; }catch(e){}
   } return null;
 }
-function setMinted(n){
-  ["mintedHero","mintedStat"].forEach(id=>{ const el=document.getElementById(id); if(el) el.textContent=n.toLocaleString(); });
-  const bar=document.getElementById("barFill"); if(bar) bar.style.width=(n/10000*100)+"%";
-  const barH=document.getElementById("barFillHero"); if(barH) barH.style.width=(n/10000*100)+"%";
-  const lbl=document.getElementById("barLabel"); if(lbl) lbl.textContent=n.toLocaleString()+" of 10,000 minted ("+(n/10000*100).toFixed(2)+"%)";
-  const cc=document.getElementById("ctaCount"); if(cc) cc.textContent=n.toLocaleString();
+const NO_WALLET_MSG="No browser wallet detected. Open this site inside your wallet app browser (MetaMask / Trust Wallet / Binance Wallet).";
+const TX_WALLET_FEE_MSG="Your wallet could not prepare this transaction (empty answer from the browser). Open this site inside your wallet app browser (MetaMask / Trust Wallet / Binance Wallet) and try again.";
+async function rpcGasPrice(){
+  for(const url of RPCS){
+    try{ const r=await fetch(url,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({jsonrpc:"2.0",id:1,method:"eth_gasPrice",params:[]})});
+      const j=await r.json(); if(j.result) return BigInt(j.result); }catch(e){}
+  } return 1000000000n;
 }
-function setFree(f){
-  ["freeHero","freeStat","freeLeft"].forEach(id=>{ const el=document.getElementById(id); if(el) el.textContent=f.toLocaleString(); });
+function txErrMsg(e){
+  const m=(e&&e.message)||String(e||"");
+  if(m.indexOf("invalid BigNumberish")>=0||m.indexOf("value=null")>=0){ return TX_WALLET_FEE_MSG; }
+  return (e&&e.reason)||m;
+}
+async function sendTx(tx,gasLimit){
+  const gp=await rpcGasPrice();
+  return signer.sendTransaction({...tx,gasPrice:gp,gasLimit:BigInt(gasLimit)});
+}
+function updateNoWallet(){
+  const w=document.getElementById("noWalletWarn");
+  const wm=document.getElementById("noWalletWarnMkt");
+  const show=!window.ethereum;
+  if(w){ w.textContent=show?NO_WALLET_MSG:""; w.classList.toggle("show",show); }
+  if(wm){ wm.textContent=show?NO_WALLET_MSG:""; wm.classList.toggle("show",show); }
+}
+let displayedMinted=0;
+function setMinted(n){
+  const start=displayedMinted, t0=performance.now(), dur=700;
+  const reduced=window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  function fmt(v){ return Math.round(v).toLocaleString(); }
+  function apply(v){
+    ["mintedHero","mintedStat"].forEach(id=>{ const el=document.getElementById(id); if(el) el.textContent=fmt(v); });
+    const bar=document.getElementById("barFill"); if(bar) bar.style.width=(v/10000*100)+"%";
+    const barH=document.getElementById("barFillHero"); if(barH) barH.style.width=(v/10000*100)+"%";
+    const lbl=document.getElementById("barLabel"); if(lbl) lbl.textContent=fmt(v)+" of 10,000 minted ("+(v/10000*100).toFixed(2)+"%)";
+    const cc=document.getElementById("ctaCount"); if(cc) cc.textContent=fmt(v);
+  }
+  if(reduced||start===n){ displayedMinted=n; apply(n); return; }
+  function step(t){ const p=Math.min(1,(t-t0)/dur); const e=1-Math.pow(1-p,3); const v=start+(n-start)*e; apply(v); if(p<1) requestAnimationFrame(step); else displayedMinted=n; }
+  requestAnimationFrame(step);
 }
 let lastMarketN=-1;
 function abiDecodeString(hex){
@@ -498,7 +579,7 @@ async function loadMarket(){
   const ids=[]; for(let id=n; id>=Math.max(1,n-7); id--) ids.push(id);
   for(const id of ids){
     const card=document.createElement("div"); card.className="mkt-card";
-    card.innerHTML='<img src="'+ph+'" alt="MORIPALS #'+id+'"><div class="mkt-body"><b>MORIPALS #'+id+'</b><span>Loading tier…</span><div class="mkt-links"><a href="https://elyscan.live/address/'+CONTRACT+'" target="_blank" rel="noopener">Explorer ↗</a></div></div>';
+    card.innerHTML='<img src="'+ph+'" alt="MORIPALS #'+id+'"><div class="mkt-body"><b>MORIPALS #'+id+'</b><span>Loading tier…</span><div class="mkt-links"><a href="https://bscscan.com/address/'+CONTRACT+'" target="_blank" rel="noopener">Explorer ↗</a></div></div>';
     board.appendChild(card);
     const imgEl=card.querySelector("img");
     const spanEl=card.querySelector(".mkt-body span");
@@ -544,10 +625,10 @@ async function loadListings(){
       charName=attrs["Character"]||""; rarity=attrs["Rarity"]||"";
       const src=tierImgFor(charName); if(src) img=src;
     }catch(e){}
-    const priceHype=(Number(price)/1e18).toFixed(5);
+    const priceBnb=(Number(price)/1e18).toFixed(5);
     const mine=userAddr&&seller.toLowerCase()===userAddr.toLowerCase();
     const card=document.createElement("div"); card.className="mkt-card";
-    card.innerHTML='<img src="'+img+'" alt="MORIPALS #'+id+'"><div class="mkt-body"><b>MORIPALS #'+id+'</b><span>'+(rarity?rarity+" · ":"")+charName+'</span><div class="mkt-price">'+priceHype+' HYPE</div><div class="mkt-seller">Seller: '+shortAddr(seller)+'</div><div class="mkt-row">'+(mine?'<button class="btn-ghost" onclick="cancelNow('+id+')">CANCEL</button><button class="btn-ghost" onclick="updatePriceNow('+id+')">UPDATE PRICE</button>':'<button class="btn-gold" onclick="buyNow('+id+',&quot;'+price.toString()+'&quot;)">BUY</button>')+'</div></div>';
+    card.innerHTML='<img src="'+img+'" alt="MORIPALS #'+id+'"><div class="mkt-body"><b>MORIPALS #'+id+'</b><span>'+(rarity?rarity+" · ":"")+charName+'</span><div class="mkt-price">'+priceBnb+' BNB</div><div class="mkt-seller">Seller: '+shortAddr(seller)+'</div><div class="mkt-row">'+(mine?'<button class="btn-ghost" onclick="cancelNow('+id+')">CANCEL</button><button class="btn-ghost" onclick="updatePriceNow('+id+')">UPDATE PRICE</button>':'<button class="btn-gold" onclick="buyNow('+id+',&quot;'+price.toString()+'&quot;)">BUY</button>')+'</div></div>';
     grid.appendChild(card);
   }
   if(!grid.children.length){ grid.innerHTML="<div class='mkt-note'>No pals listed yet — be the first to list one below.</div>"; }
@@ -555,13 +636,13 @@ async function loadListings(){
 async function listNow(){
   const msg=document.getElementById("marketMsg");
   if(!MARKET){ msg.textContent="The market is not live yet."; return; }
-  if(!signer){ await connectWallet(); if(!signer) return; }
+  if(!signer){ updateNoWallet(); await connectWallet(); if(!signer) return; }
   const id=parseInt(document.getElementById("listTokenId").value);
   const priceStr=document.getElementById("listPrice").value;
   if(!id||id<1||id>10000){ msg.textContent="Enter a valid token ID (1–10,000)."; return; }
   let priceWei;
   try{ priceWei=ethers.parseEther(priceStr); }catch(e){ priceWei=0n; }
-  if(priceWei<=0n){ msg.textContent="Enter a valid price in HYPE (more than 0)."; return; }
+  if(priceWei<=0n){ msg.textContent="Enter a valid price in BNB (more than 0)."; return; }
   try{
     const ores=await rpcCall(CONTRACT,SEL_OWNEROF+id.toString(16).padStart(64,"0"));
     if(!ores){ msg.textContent="Could not check the token owner — try again."; return; }
@@ -572,72 +653,70 @@ async function listNow(){
     if(!approved){
       msg.textContent="Approving the market contract to move your NFT — confirm in your wallet…";
       const ifaceA=new ethers.Interface(["function setApprovalForAll(address operator, bool approved)"]);
-      const txA=await signer.sendTransaction({to:CONTRACT,data:ifaceA.encodeFunctionData("setApprovalForAll",[MARKET,true])});
+      const txA=await sendTx({to:CONTRACT,data:ifaceA.encodeFunctionData("setApprovalForAll",[MARKET,true])},100000);
       await txA.wait();
     }
     const iface=new ethers.Interface(["function list(uint256 tokenId, uint256 price)"]);
-    const tx=await signer.sendTransaction({to:MARKET,data:iface.encodeFunctionData("list",[id,priceWei])});
+    const tx=await sendTx({to:MARKET,data:iface.encodeFunctionData("list",[id,priceWei])},300000);
     msg.textContent="Transaction sent: "+tx.hash+" — waiting for confirmation…";
     await tx.wait();
     msg.textContent="Listed! Tx: "+tx.hash;
     loadListings();
-  }catch(e){ msg.textContent="List failed: "+(e.reason||e.message||e); }
+  }catch(e){ msg.textContent="List failed: "+txErrMsg(e); }
 }
 async function buyNow(id,priceWei){
   const msg=document.getElementById("marketMsg");
   if(!MARKET) return;
-  if(!signer){ await connectWallet(); if(!signer) return; }
+  if(!signer){ updateNoWallet(); await connectWallet(); if(!signer) return; }
   try{
     const iface=new ethers.Interface(["function buy(uint256 tokenId)"]);
-    const tx=await signer.sendTransaction({to:MARKET,data:iface.encodeFunctionData("buy",[id]),value:BigInt(priceWei)});
+    const tx=await sendTx({to:MARKET,data:iface.encodeFunctionData("buy",[id]),value:BigInt(priceWei)},300000);
     msg.textContent="Transaction sent: "+tx.hash+" — waiting for confirmation…";
     await tx.wait();
     msg.textContent="Bought! Tx: "+tx.hash;
     loadListings(); refresh();
-  }catch(e){ msg.textContent="Buy failed: "+(e.reason||e.message||e); }
+  }catch(e){ msg.textContent="Buy failed: "+txErrMsg(e); }
 }
 async function cancelNow(id){
   const msg=document.getElementById("marketMsg");
   if(!MARKET) return;
-  if(!signer){ await connectWallet(); if(!signer) return; }
+  if(!signer){ updateNoWallet(); await connectWallet(); if(!signer) return; }
   try{
     const iface=new ethers.Interface(["function cancel(uint256 tokenId)"]);
-    const tx=await signer.sendTransaction({to:MARKET,data:iface.encodeFunctionData("cancel",[id])});
+    const tx=await sendTx({to:MARKET,data:iface.encodeFunctionData("cancel",[id])},200000);
     msg.textContent="Transaction sent: "+tx.hash+" — waiting for confirmation…";
     await tx.wait();
     msg.textContent="Listing cancelled — your pal is back in your wallet. Tx: "+tx.hash;
     loadListings();
-  }catch(e){ msg.textContent="Cancel failed: "+(e.reason||e.message||e); }
+  }catch(e){ msg.textContent="Cancel failed: "+txErrMsg(e); }
 }
 async function updatePriceNow(id){
   const msg=document.getElementById("marketMsg");
   if(!MARKET) return;
-  if(!signer){ await connectWallet(); if(!signer) return; }
-  const v=window.prompt("New price in HYPE:");
+  if(!signer){ updateNoWallet(); await connectWallet(); if(!signer) return; }
+  const v=window.prompt("New price in BNB:");
   if(v===null) return;
   let priceWei;
   try{ priceWei=ethers.parseEther(v); }catch(e){ priceWei=0n; }
-  if(priceWei<=0n){ msg.textContent="Enter a valid price in HYPE (more than 0)."; return; }
+  if(priceWei<=0n){ msg.textContent="Enter a valid price in BNB (more than 0)."; return; }
   try{
     const iface=new ethers.Interface(["function updatePrice(uint256 tokenId, uint256 newPrice)"]);
-    const tx=await signer.sendTransaction({to:MARKET,data:iface.encodeFunctionData("updatePrice",[id,priceWei])});
+    const tx=await sendTx({to:MARKET,data:iface.encodeFunctionData("updatePrice",[id,priceWei])},200000);
     msg.textContent="Transaction sent: "+tx.hash+" — waiting for confirmation…";
     await tx.wait();
     msg.textContent="Price updated! Tx: "+tx.hash;
     loadListings();
-  }catch(e){ msg.textContent="Update price failed: "+(e.reason||e.message||e); }
+  }catch(e){ msg.textContent="Update price failed: "+txErrMsg(e); }
 }
 function setPausedUI(paused){
-  ["mintBtn","mintBtnHero"].forEach(id=>{ const b=document.getElementById(id); if(b){ b.disabled=paused; b.textContent=paused?"MINT — COMING SOON":"MINT NOW"; }});
-  const ms=document.getElementById("mintStatus"); if(ms) ms.textContent=paused?"Mint status: COMING SOON":"Mint status: LIVE";
+  ["mintBtn","mintBtnHero"].forEach(id=>{ const b=document.getElementById(id); if(b){ b.disabled=paused; b.textContent=paused?"MINT — OPENS SOON":"MINT NOW"; }});
+  const ms=document.getElementById("mintStatus"); if(ms) ms.textContent=paused?"Mint status: OPENS SOON":"Mint status: LIVE";
 }
 async function refresh(){
-  if(!CONTRACT){ setMinted(0); setFree(500); const lbl=document.getElementById("barLabel"); if(lbl) lbl.textContent="Contract coming soon — mint not open yet."; return; }
+  if(!CONTRACT){ setMinted(0); const lbl=document.getElementById("barLabel"); if(lbl) lbl.textContent="Mint not open yet — the contract address is not set."; return; }
   const res=await rpcCall(CONTRACT,SEL_TOTAL);
   if(!res){ const lbl=document.getElementById("barLabel"); if(lbl) lbl.textContent="Could not load live count — check your connection and refresh."; setPausedUI(true); return; }
   setMinted(parseInt(res,16));
-  const fres=await rpcCall(CONTRACT,SEL_FREE);
-  if(fres) setFree(parseInt(fres,16));
   const pres=await rpcCall(CONTRACT,SEL_PAUSED);
   const paused=!pres || BigInt(pres)===1n;
   setPausedUI(paused);
@@ -645,7 +724,7 @@ async function refresh(){
   loadListings();
 }
 function setQty(v){ document.getElementById("qty").value=v; updateCost(); }
-// Agent minting is not available on Elysium — wallet mint only.
+// Wallet mint is primary; the Docs section also shows the agent prompt.
 async function updateCost(){
   const q=parseInt(document.getElementById("qty").value)||1;
   if(!userAddr||!CONTRACT) return;
@@ -653,24 +732,24 @@ async function updateCost(){
   const res=await rpcCall(CONTRACT,data);
   if(!res) return;
   const wei=BigInt(res);
-  document.getElementById("totalCost").textContent="Total for "+q+": "+(Number(wei)/1e18).toFixed(5)+" HYPE"+(wei===0n?" — FREE":"");
+  document.getElementById("totalCost").textContent="Total for "+q+": "+(Number(wei)/1e18).toFixed(5)+" BNB"+(wei===0n?" — FREE":"");
 }
 async function connectWallet(){
-  if(!window.ethereum){ document.getElementById("mintMsg").textContent="No browser wallet detected. Open this site inside your wallet app browser (Bitget Wallet / MetaMask)."; return; }
+  if(!window.ethereum){ document.getElementById("mintMsg").textContent=NO_WALLET_MSG; updateNoWallet(); return; }
   try{
     provider=new ethers.BrowserProvider(window.ethereum);
     await provider.send("eth_requestAccounts",[]);
     const net=await provider.getNetwork();
-    if(net.chainId!==99901n){ try{ await window.ethereum.request({method:"wallet_switchEthereumChain",params:[{chainId:"0x1863d"}]}); }catch(e){ if(e&&e.code===4902){ await window.ethereum.request({method:"wallet_addEthereumChain",params:[{chainId:"0x1863d",chainName:"Elysium",nativeCurrency:{name:"HYPE",symbol:"HYPE",decimals:18},rpcUrls:["https://rpc.elyscan.live"],blockExplorerUrls:["https://elyscan.live"]}]}); }else{ throw e; } } }
+    if(net.chainId!==56n){ try{ await window.ethereum.request({method:"wallet_switchEthereumChain",params:[{chainId:"0x38"}]}); }catch(e){ if(e&&e.code===4902){ await window.ethereum.request({method:"wallet_addEthereumChain",params:[{chainId:"0x38",chainName:"BNB Smart Chain",nativeCurrency:{name:"BNB",symbol:"BNB",decimals:18},rpcUrls:["https://bsc-dataseed.bnbchain.org"],blockExplorerUrls:["https://bscscan.com"]}]}); }else{ throw e; } } }
     signer=await provider.getSigner(); userAddr=await signer.getAddress();
     document.getElementById("connectBtn").textContent="CONNECTED: "+userAddr.slice(0,6)+"…"+userAddr.slice(-4);
-    document.getElementById("mintMsg").textContent="Connected. Your price is based on whether this is your first mint and how many free mints remain.";
+    document.getElementById("mintMsg").textContent="Connected. Your price is based on how many you have minted before — your first mint is free.";
     updateCost();
   }catch(e){ document.getElementById("mintMsg").textContent="Connect failed: "+(e.message||e); }
 }
 async function mintNow(){
   if(!CONTRACT){ document.getElementById("mintMsg").textContent="Mint is not open yet."; return; }
-  if(!signer){ await connectWallet(); if(!signer) return; }
+  if(!signer){ updateNoWallet(); await connectWallet(); if(!signer) return; }
   const q=parseInt(document.getElementById("qty").value)||1;
   if(q<1||q>10){ document.getElementById("mintMsg").textContent="Quantity must be 1–10."; return; }
   const pres=await rpcCall(CONTRACT,SEL_PAUSED);
@@ -680,12 +759,12 @@ async function mintNow(){
     const res=await rpcCall(CONTRACT,data);
     const value=res?BigInt(res):0n;
     const iface=new ethers.Interface(["function mint(uint256 quantity)"]);
-    const tx=await signer.sendTransaction({to:CONTRACT,data:iface.encodeFunctionData("mint",[q]),value});
+    const tx=await sendTx({to:CONTRACT,data:iface.encodeFunctionData("mint",[q]),value},300000);
     document.getElementById("mintMsg").textContent="Transaction sent: "+tx.hash+" — waiting for confirmation…";
     await tx.wait();
     document.getElementById("mintMsg").textContent="Minted! Tx: "+tx.hash;
     refresh();
-  }catch(e){ document.getElementById("mintMsg").textContent="Mint failed: "+(e.reason||e.message||e); }
+  }catch(e){ document.getElementById("mintMsg").textContent="Mint failed: "+txErrMsg(e); }
 }
 (function sky(){
   const cv=document.getElementById("sky");
@@ -695,7 +774,7 @@ async function mintNow(){
   let W=0,H=0,stars=[],flies=[],mx=0,my=0,tx=0,ty=0;
   function size(){ W=cv.width=window.innerWidth; H=cv.height=window.innerHeight;
     stars=[]; for(let i=0;i<110;i++){ stars.push({x:Math.random()*W,y:Math.random()*H,r:Math.random()*1.4+.4,ph:Math.random()*6.28,sp:.4+Math.random()*1.2}); }
-    flies=[]; for(let i=0;i<22;i++){ flies.push({x:Math.random()*W,y:Math.random()*H,r:1.6+Math.random()*1.8,ph:Math.random()*6.28,sp:.15+Math.random()*.3,dx:(Math.random()-.5)*.25}); }
+    flies=[]; for(let i=0;i<25;i++){ flies.push({x:Math.random()*W,y:Math.random()*H,r:1.6+Math.random()*1.8,ph:Math.random()*6.28,sp:.15+Math.random()*.3,dx:(Math.random()-.5)*.25}); }
   }
   size(); window.addEventListener("resize",size);
   window.addEventListener("mousemove",e=>{ tx=(e.clientX/W-.5)*14; ty=(e.clientY/H-.5)*10; });
@@ -713,7 +792,7 @@ async function mintNow(){
   draw(0);
 })();
 document.getElementById("qty").addEventListener("input",()=>{updateCost();});
-refresh(); setInterval(refresh,30000);
+updateNoWallet(); refresh(); setInterval(refresh,30000);
 document.querySelectorAll(".reveal").forEach(el=>{ new IntersectionObserver((es,o)=>{es.forEach(e=>{if(e.isIntersecting){e.target.classList.add("on");o.disconnect();}})}).observe(el); });
 function toggleMenu(){ document.getElementById("drawer").classList.toggle("open"); document.getElementById("scrim").classList.toggle("on"); document.getElementById("burgerBtn").classList.toggle("open"); document.body.style.overflow=document.getElementById("drawer").classList.contains("open")?"hidden":""; }
 window.addEventListener("scroll",()=>{ const cta=document.getElementById("mobileCta"); if(!cta) return; cta.classList.toggle("show",window.scrollY>560&&window.innerWidth<=768); },{passive:true});
