@@ -34,7 +34,12 @@
 <div class="ladder"><h3 data-i18n="forgeLadderH">THE FORGE LADDER</h3><div id="ladderRows"></div>
 <p class="ladder-note" data-i18n="forgeBurn">First 100 forges gas-only, then 1,000 $MORP burned per forge.</p></div>
 <div class="mintform" style="text-align:center">
-<p style="font-size:13px;color:#8A9A82" data-en="Pick a rung to forge. The forge burns your lower pals and mints one higher pal." data-ja="鍛える段を選んでください。フォージは下位のパルをバーンし、上位のパル1体をミントします。" data-zh="选择要锻造的阶梯。熔炉将燃烧你的低阶伙伴，铸造出一位高阶伙伴。" data-ko="단련할 단계를 선택하세요. 대장간은 하위 친구를 소각하고 상위 친구 1개를 민트합니다.">Pick a rung to forge. The forge burns your lower pals and mints one higher pal.</p>
+<p style="font-size:13px;color:#8A9A82" id="forgeHint">Pick a rung to forge. The forge burns your lower pals and mints one higher pal.</p>
+<label data-i18n="forgeIdsLabel" style="font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:#8A9A82">TOKEN IDS TO FORGE</label>
+<div class="qtyrow"><input type="text" id="forgeIds" placeholder="e.g. 12, 45, 78"></div>
+<p style="font-size:13px;color:#8A9A82" data-i18n="forgePick">Enter the token IDs of the pals to burn — 3 Moss Sprouts, or 2 of any higher tier. All must be the same tier.</p>
+<button class="btn-ghost" style="width:100%;margin-top:12px" onclick="checkForgeIds()" data-en="CHECK IDS" data-ja="IDを確認" data-zh="检查ID" data-ko="ID 확인">CHECK IDS</button>
+<div id="forgeFeeLine" style="font-size:13px;margin-top:12px;color:#FFC53D;font-weight:700"></div>
 <button class="btn-gold" id="forgeBtn" onclick="forgeNow()" disabled data-i18n="forgeSoon">FORGE — OPENS SOON</button>
 <div id="forgeMsg" style="font-size:13px;margin-top:12px;line-height:1.7"></div>
 <div class="nowallet" id="noWalletWarn"></div>
