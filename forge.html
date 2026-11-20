@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MORIPALS — Forge v3</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,600;1,700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="shared.css">
+<script src="https://cdn.jsdelivr.net/npm/ethers@6.13.2/dist/ethers.umd.min.js"></script>
+</head>
+<body><canvas id="sky"></canvas>
+<div class="page">
+<header><div class="brand">✦ <b>MORIPALS</b> <span class="v3">FORGE v3</span></div>
+<nav class="navpills"><a href="index.html" data-en="Mint" data-ja="ミント" data-zh="铸造" data-ko="민트">Mint</a><a href="forge.html" class="on" data-en="Forge" data-ja="フォージ" data-zh="熔炉" data-ko="대장간">Forge</a><a href="claim.html">$MORP</a><a href="market.html" data-en="Market" data-ja="マーケット" data-zh="市场" data-ko="마켓">Market</a><a href="index.html#roadmap" data-en="Roadmap" data-ja="ロードマップ" data-zh="路线图" data-ko="로드맵">Roadmap</a><a href="https://x.com/moripals" target="_blank" rel="noopener">𝕏 @moripals</a></nav>
+<div class="langpick"><button data-lang="en" class="on" onclick="setLang('en')">EN</button><button data-lang="ja" onclick="setLang('ja')">JA</button><button data-lang="zh" onclick="setLang('zh')">ZH</button><button data-lang="ko" onclick="setLang('ko')">KO</button></div>
+<button class="burger" id="burgerBtn" onclick="toggleMenu()" aria-label="Menu"><span></span><span></span><span></span></button></header>
+<div class="scrim" id="scrim" onclick="toggleMenu()"></div>
+<aside class="drawer" id="drawer"><div class="dlogo">✦ <b>MORIPALS</b></div>
+<a class="dlink cta" href="index.html#mint" onclick="toggleMenu()" data-en="🌱 Mint Your Pal" data-ja="🌱 パルをミント" data-zh="🌱 铸造你的伙伴" data-ko="🌱 팔 민트하기">🌱 Mint Your Pal</a>
+<a class="dlink" href="forge.html" onclick="toggleMenu()" data-en="■ Forge" data-ja="■ フォージ" data-zh="■ 熔炉" data-ko="■ 대장간">■ Forge</a>
+<a class="dlink" href="claim.html" onclick="toggleMenu()" data-en="■ $MORP Token" data-ja="■ $MORPトークン" data-zh="■ $MORP代币" data-ko="■ $MORP 토큰">■ $MORP Token</a>
+<a class="dlink" href="market.html" onclick="toggleMenu()" data-en="■ Market" data-ja="■ マーケット" data-zh="■ 市场" data-ko="■ 마켓">■ Market</a>
+<a class="dlink" href="index.html#roadmap" onclick="toggleMenu()" data-en="■ Roadmap" data-ja="■ ロードマップ" data-zh="■ 路线图" data-ko="■ ロード맵">■ Roadmap</a>
+<a class="dlink" href="https://x.com/moripals" target="_blank" rel="noopener">𝕏 @moripals</a>
+<div class="langpick-drawer"><button data-lang="en" class="on" onclick="setLang('en')">EN</button><button data-lang="ja" onclick="setLang('ja')">JA</button><button data-lang="zh" onclick="setLang('zh')">ZH</button><button data-lang="ko" onclick="setLang('ko')">KO</button></div>
+<div class="dfoot" data-i18n="dfoot">10,000 FOREST PALS<br>FIRST MINT FREE · BNB CHAIN</div></aside>
+
+<div class="preview-bar" data-i18n="previewBar">FORGE v3 — LIVE · MINT OPENS SOON · v2: 257 minted, pausing at launch</div>
+
+<div class="marquee" aria-hidden="true"><div class="marquee-track"><span>FORGE FORGE FORGE </span><span class="fill">MORI MORI </span><span>FORGE FORGE FORGE </span><span class="fill">MORI MORI </span></div></div>
+
+<div class="wrap">
+<section class="reveal">
+<div class="sec-head"><div class="eyebrow" data-en="The forge" data-ja="フォージ" data-zh="熔炉" data-ko="대장간">The forge</div><h2 data-i18n="forgeH2">Forge your pals<br>into <em class="grad">legends</em>.</h2><p data-i18n="forgeIntro">Three Commons forge into one Uncommon. Two Uncommons into one Rare — climb all the way to the Mythic Mori Spirit. The first 100 forges are gas-only; after that, 1,000 $MORP burns per forge.</p></div>
+<div class="forge-count" id="forgeCount">—</div>
+<div class="forge-count-label" id="forgeCountNote" data-i18n="forgeCountSoon">Forge count loads when v3 deploys.</div>
+<div class="ladder"><h3 data-i18n="forgeLadderH">THE FORGE LADDER</h3><div id="ladderRows"></div>
+<p class="ladder-note" data-i18n="forgeBurn">First 100 forges gas-only, then 1,000 $MORP burned per forge.</p></div>
+<div class="mintform" style="text-align:center">
+<p style="font-size:13px;color:#8A9A82" data-en="Pick a rung to forge. The forge burns your lower pals and mints one higher pal." data-ja="鍛える段を選んでください。フォージは下位のパルをバーンし、上位のパル1体をミントします。" data-zh="选择要锻造的阶梯。熔炉将燃烧你的低阶伙伴，铸造出一位高阶伙伴。" data-ko="단련할 단계를 선택하세요. 대장간은 하위 친구를 소각하고 상위 친구 1개를 민트합니다.">Pick a rung to forge. The forge burns your lower pals and mints one higher pal.</p>
+<button class="btn-gold" id="forgeBtn" onclick="forgeNow()" disabled data-i18n="forgeSoon">FORGE — OPENS SOON</button>
+<div id="forgeMsg" style="font-size:13px;margin-top:12px;line-height:1.7"></div>
+<div class="nowallet" id="noWalletWarn"></div>
+</div>
+</section>
+
+<section class="reveal">
+<div class="sec-head"><div class="eyebrow" data-en="Rarity" data-ja="レアリティ" data-zh="稀有度" data-ko="희귀도">Rarity</div><h2 data-i18n="rarityH2">Six friends,<br><em class="grad">one forest</em>.</h2></div>
+<div class="tier-grid" id="tierGrid"></div>
+</section>
+</div>
+
+<footer><b>MORIPALS</b> · FORGE v3 PREVIEW<br><span data-i18n="v2Note">v2: 257 minted — pausing at v3 launch.</span><br>$MORP: <code>0xff88E964403F6EDb7d93d19BaF4BAF186CceCb56</code> · v3 NFT / Market / Claim: <span data-en="not deployed yet" data-ja="まだデプロイされていません" data-zh="尚未部署" data-ko="아직 배포되지 않음">not deployed yet</span><br><a href="https://x.com/moripals" target="_blank" rel="noopener">𝕏 @moripals</a></footer>
+</div>
+<a href="index.html#mint" id="mobileCta">🌱 <span id="ctaCount">—</span> / 10,000 · <span data-en="MINT FREE" data-ja="無料でミント" data-zh="免费铸造" data-ko="무료 민트">MINT FREE</span></a>
+<script src="shared.js"></script>
+<script>
+(function(){
+  var grid="";
+  TIERS.forEach(function(t,i){
+    grid+='<div class="tier-card"><span class="num">#'+String(i+1).padStart(2,"0")+'</span><img src="'+t.img+'" alt="'+t.name+'" loading="lazy"><div class="tier-body"><div class="rarity" style="color:'+t.color+'">'+t.rarity+'</div><h3>'+t.name+'</h3><p>'+t.count.toLocaleString()+' / 10,000 pals</p><div class="rbar"><i style="width:'+(t.count/100)+'%;background:'+t.color+'"></i></div></div></div>';
+  });
+  document.getElementById("tierGrid").innerHTML=grid;
+  var ladder="",need=[3,2,2,2,2];
+  for(var i=0;i<5;i++){
+    ladder+='<div class="ladder-row" onclick="forgeStep('+i+')" style="cursor:pointer"><span class="from"><img src="'+TIERS[i].img+'" alt="'+TIERS[i].name+'">'+need[i]+' × '+TIERS[i].name+' ('+TIERS[i].rarity+')</span><span class="to">→ 1 × '+TIERS[i+1].name+' ('+TIERS[i+1].rarity+')</span></div>';
+  }
+  document.getElementById("ladderRows").innerHTML=ladder;
+  forgeStep(0);
+})();
+</script>
+</body></html>
